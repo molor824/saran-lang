@@ -1,0 +1,42 @@
+# This is the EBNF notation for Saran programming language
+
+# Custom syntax defined as following
+# {...}:(...) * = repetition with seperator
+
+# Builtin rules
+
+alpha = ? All alphabetic characters ?
+numeric = ? All numeric characters ?
+digit base = ? Digits of certain base ?
+space = ? whitespaces ?
+character = ? all characters ?
+
+# Grammar
+
+# Literal
+
+ident = (alpha | '_') , {alpha | numeric | '_'};
+
+integer base = digit base , {'_'? digit base};
+real base = integer base , ('.' , integer base)? | '.' , integer base;
+exponent 16 = real 16 , (('P' | 'p') , ('+' | '-')? , integer 16)?;
+exponent base = real base , (('E' | 'e') , ('+' | '-')? , integer base)?;
+
+unicode escape = '\\u' , '{' , {integer 16} , '}';
+ascii escape = '\\x' , digit 16 , digit 16;
+escape char = '\\' , ('n' | 'r' | 't' | 'b' | '0' | '\'' | '"' | '\\' );
+
+escape sequence = unicode escape | ascii escape | escape char;
+simple string = '"' , (escape sequence | character - '"') , '"';
+raw string = 'r' , {'('} , '"' , {escape sequence | character} , '"' , {')'}; # repetition of '(' must match the repetition of ')'
+string lit = (raw string | simple string) , ("u32" | "u16")?;
+
+char lit = '\'' , (escape sequence | character - '\'') , '\'';
+
+boolean = "true" | "false";
+
+# expression (from top to bottom)
+
+# primary
+
+
