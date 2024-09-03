@@ -2,6 +2,7 @@ use std::rc::Rc;
 
 use super::span::*;
 
+#[derive(Debug, Clone)]
 pub struct Error {
     message: SpanOf<String>,
     source: Rc<String>,

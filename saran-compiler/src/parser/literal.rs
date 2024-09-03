@@ -78,3 +78,17 @@ fn ident() -> impl Parser<SpanOf<String>> {
             }
         })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_ident() {
+        let source = Source::new("--comment\n \n\n\n\t\t\t\t--[[block comment]] test".to_string());
+        assert_eq!(
+            ident().parse(source).unwrap().map(|a| a.0.value),
+            Some("test".to_string())
+        );
+    }
+}
