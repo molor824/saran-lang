@@ -15,7 +15,12 @@ character = ? all characters ?
 
 # Literal
 
-ident = (alpha | '_') , {alpha | numeric | '_'};
+line comment = '--' , {...} , '\n';
+block comment = '--[[' , {...} , ']]';
+
+skip = {space | line comment | block comment};
+
+ident = skip , (alpha | '_') , {alpha | numeric | '_'};
 
 integer base = digit base , {'_'? digit base};
 real base = integer base , ('.' , integer base)? | '.' , integer base;
